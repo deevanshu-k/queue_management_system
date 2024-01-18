@@ -1,10 +1,12 @@
+require("dotenv").config();
 const http = require("http");
 const { app } = require("./src/app");
 const { setUpSocket } = require("./src/socket");
 
-
-
+const port = process.env.PORT;
+console.log(port);
 if (process.env.NODE_ENV == "production") {
+    console.log("Production ENV");
     httpServer = http.createServer(app);
     // for production
     //var privateKey  = fs.readFileSync('sslcert/server.key', 'utf8');
@@ -18,6 +20,6 @@ if (process.env.NODE_ENV == "production") {
 
 setUpSocket(httpServer);
 
-httpServer.listen(3000, () => {
-    console.log(`APP LISTENING ON http://${"127.0.0.1"}:${3000}`);
+httpServer.listen(port, () => {
+    console.log(`APP LISTENING ON http://${process.env.HOST}:${port}`);
 });

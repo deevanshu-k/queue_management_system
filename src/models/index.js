@@ -36,8 +36,8 @@ models.Sequelize = Sequelize;
                 type: "EXTERNAL",
                 managername: "John Doe",
                 password: "Password123",
-                startdate: "2024-01-18",
-                starttime: "10:00:00",
+                startdate: date,
+                starttime: date,
                 candidates: [
                     {
                         id: "1001",
@@ -100,8 +100,8 @@ models.Sequelize = Sequelize;
                 type: "INTERNAL",
                 managername: "Jane Doe",
                 password: "SecurePwd456",
-                startdate: "2024-01-19",
-                starttime: "14:30:00",
+                startdate: date,
+                starttime: date,
                 candidates: [
                     {
                         id: "1011",
@@ -161,8 +161,8 @@ models.Sequelize = Sequelize;
                 type: "EXTERNAL",
                 managername: "Alex Johnson",
                 password: "Pass321Word",
-                startdate: "2024-01-20",
-                starttime: "09:00:00",
+                startdate: date,
+                starttime: date,
                 candidates: [
                     {
                         id: "1021",
@@ -222,8 +222,8 @@ models.Sequelize = Sequelize;
                 type: "INTERNAL",
                 managername: "Chris Taylor",
                 password: "SecurePwd789",
-                startdate: "2024-01-21",
-                starttime: "13:00:00",
+                startdate: date,
+                starttime: date,
                 candidates: [
                     {
                         id: "1031",

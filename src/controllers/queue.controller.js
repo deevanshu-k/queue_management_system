@@ -138,3 +138,38 @@ module.exports.deleteQueue = {
         }
     },
 };
+
+module.exports.getQueue = {
+    validator: celebrate({
+        body: Joi.object(),
+    }),
+    controller: async (req, res) => {
+        try {
+            const queueId = req.auth.id;
+            let queue = await db.queue.findOne({
+                where: { id: queueId },
+                include: {
+                    model: db.candidate,
+                    as: "candidates",
+                    attributes: ["id", "candidate_id", "status", "name"],
+                },
+                attributes: [
+                    "id",
+                    "topic",
+                    "type",
+                    "status",
+                    "managername",
+                    "startdate",
+                    "starttime",
+                ],
+            });
+
+            return res.status(200).json(queue);
+        } catch (error) {
+            console.log(error);
+            return res.status(500).send({
+                message: "Something went wrong !",
+            });
+        }
+    },
+};

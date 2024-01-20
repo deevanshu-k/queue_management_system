@@ -1,14 +1,26 @@
+const jwt = require("jsonwebtoken");
+
 module.exports.authCheck = async (req, res, next) => {
     try {
-        console.log("Auth Check");
-        // Get token from header:Authorization
-        // If token not found response token not found
-        // Verify Token
-        // expose token data to req.auth
+        // Get Token
+        const { authorization } = req.headers;
+        if (!authorization) {
+            // If Token Not Found
+            return res.status(401).json({
+                message: "You are not authorized for this request !",
+            });
+        }
+        // Authorize Token
+        const decoded = jwt.verify(authorization, process.env.SECRET);
+        if (process.env.NODE_ENV == "development") console.log(decoded);
+        // Set Decoded For Next Middleware
+        req.auth = decoded;
         // Go To Next Middleware
         next();
     } catch (error) {
-        // Token Is Unauthorized
-        res.send(error);
+        // If Token Is Unauthorized
+        return res.status(401).json({
+            message: "Session expired, login again !",
+        });
     }
 };

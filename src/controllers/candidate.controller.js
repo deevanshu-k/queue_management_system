@@ -1,11 +1,46 @@
-module.exports.addCandidateToQueue = async (req, res) => {
-    res.send("Add Candidate To Queue");
+const { celebrate, Joi } = require("celebrate");
+
+module.exports.addCandidateToQueue = {
+    validator: celebrate({
+        body: Joi.object(),
+    }),
+    controller: async (req, res) => {
+        try {
+        } catch (error) {
+            console.log(error);
+            return res.status(500).send({
+                message: "Something went wrong !",
+            });
+        }
+    },
 };
 
-module.exports.updateCandidateStatus = async (req, res) => {
-    res.send("Check/Uncheck Candidate Of The Queue");
+module.exports.updateCandidate = {
+    validator: celebrate({
+        body: Joi.object(),
+    }),
+    controller: async (req, res) => {
+        try {
+        } catch (error) {
+            console.log(error);
+            return res.status(500).send({
+                message: "Something went wrong !",
+            });
+        }
+    },
 };
 
-module.exports.deleteCandidateOfTheQueue = async (req, res) => {
-    res.send("Delete Candidate Of The Queue");
+module.exports.deleteCandidateOfTheQueue = {
+    validator: celebrate({
+        body: Joi.object(),
+    }),
+    controller: async (req, res) => {
+        try {
+        } catch (error) {
+            console.log(error);
+            return res.status(500).send({
+                message: "Something went wrong !",
+            });
+        }
+    },
 };

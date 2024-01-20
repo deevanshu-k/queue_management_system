@@ -43,10 +43,28 @@ module.exports.addCandidateToQueue = {
 
 module.exports.updateCandidate = {
     validator: celebrate({
-        body: Joi.object(),
+        body: Joi.object().keys({
+            candidate_id: Joi.string(),
+            status: Joi.boolean(),
+            name: Joi.string(),
+        }),
+        params: Joi.object().keys({
+            candidateId: Joi.string().required(),
+        }),
     }),
     controller: async (req, res) => {
         try {
+            const candidateId = req.params.candidateId;
+            const queueId = req.auth.id;
+            let data = req.body;
+
+            await db.candidate.update(data, {
+                where: { id: candidateId, queueId: queueId },
+            });
+
+            return res.status(200).json({
+                message: "Updated successfully!",
+            });
         } catch (error) {
             console.log(error);
             return res.status(500).send({

@@ -98,7 +98,7 @@ module.exports.updateQueue = {
             });
 
             return res.status(200).json({
-                message: "Updated successfully!"
+                message: "Updated successfully!",
             });
         } catch (error) {
             console.log(error);
@@ -111,11 +111,30 @@ module.exports.updateQueue = {
 
 module.exports.deleteQueue = {
     validator: celebrate({
-        body: Joi.object().keys({
-            zip_code: Joi.number().required(),
-        }),
+        body: Joi.object(),
     }),
     controller: async (req, res) => {
-        res.send("Delete Queue");
+        try {
+            const queueId = req.auth.id;
+            await db.candidate.destroy({
+                where: {
+                    queueId: queueId,
+                },
+            });
+            await db.queue.destroy({
+                where: {
+                    id: queueId,
+                },
+            });
+
+            return res.status(200).json({
+                message: "Deleted successfully!",
+            });
+        } catch (error) {
+            console.log(error);
+            return res.status(500).send({
+                message: "Something went wrong !",
+            });
+        }
     },
 };

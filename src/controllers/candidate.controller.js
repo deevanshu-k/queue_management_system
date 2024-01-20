@@ -77,9 +77,25 @@ module.exports.updateCandidate = {
 module.exports.deleteCandidateOfTheQueue = {
     validator: celebrate({
         body: Joi.object(),
+        params: Joi.object().keys({
+            candidateId: Joi.string().required(),
+        }),
     }),
     controller: async (req, res) => {
         try {
+            const candidateId = req.params.candidateId;
+            const queueId = req.auth.id;
+
+            await db.candidate.destroy({
+                where: {
+                    queueId: queueId,
+                    id: candidateId
+                },
+            });
+
+            return res.status(200).json({
+                message: "Deleted successfully!",
+            });
         } catch (error) {
             console.log(error);
             return res.status(500).send({

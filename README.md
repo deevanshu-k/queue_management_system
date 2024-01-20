@@ -8,6 +8,8 @@ PORT=3000
 HOST='127.0.0.1'
 
 CLIENT_URL='http://127.0.0.1:4200'
+MANAGER_URL='http://127.0.0.1:4200' # Without Slash
+VIEWER_URL='http://127.0.0.1:4200'  # Without Slash
 
 ## DATABASE
 
@@ -33,6 +35,8 @@ PORT=3000
 HOST='127.0.0.1'
 
 CLIENT_URL='http://127.0.0.1:4200'
+MANAGER_URL='http://127.0.0.1:4200' # Without Slash
+VIEWER_URL='http://127.0.0.1:4200'  # Without Slash
 
 ## DATABASE
 

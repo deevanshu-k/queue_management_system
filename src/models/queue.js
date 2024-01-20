@@ -2,17 +2,16 @@ const { DataTypes } = require('sequelize')
 module.exports = (sequelize, DataTypes) => {
     return sequelize.define("queue", {
         id: {
-            type: DataTypes.STRING,
+            type: DataTypes.CHAR(36),
             primaryKey: true,
-            allowNull: false,
-            defaultValue: DataTypes.UUID,
+            allowNull: false
         },
         topic: {
             type: DataTypes.STRING(255),
             allowNull: false,
             unique: false
         },
-        type: {
+        type: { // INTERNAL | EXTERNAL | INTERVIEW
             type: DataTypes.STRING(255),
             allowNull: false,
             unique: false

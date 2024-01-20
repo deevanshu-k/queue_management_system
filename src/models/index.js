@@ -1,7 +1,6 @@
 const dbConfig = require("../config/db.config");
 let Sequelize = require("sequelize");
 let initModels = require("./init-models").initModels;
-const uuidv4 = require("uuid").v4;
 
 // create sequelize instance with database connection
 const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
@@ -30,70 +29,6 @@ models.Sequelize = Sequelize;
         let date = new Date();
         console.log(date);
         let obj = [
-            {
-                id: "1a5e9f91-46da-4d29-8b09-c27f3b6d5a3f",
-                topic: "Topic A",
-                type: "EXTERNAL",
-                managername: "John Doe",
-                password: "Password123",
-                startdate: date,
-                starttime: date,
-                candidates: [
-                    {
-                        id: "1001",
-                        candidate_id: "0834CS211001",
-                        name: "Alice Smith",
-                        status: true
-                    },
-                    {
-                        id: "1002",
-                        candidate_id: "0834CS211002",
-                        name: "Bob Johnson",
-                    },
-                    {
-                        id: "1003",
-                        candidate_id: "0834CS211003",
-                        name: "Charlie Brown",
-                        status: true
-                    },
-                    {
-                        id: "1004",
-                        candidate_id: "0834CS211004",
-                        name: "David Williams",
-                    },
-                    {
-                        id: "1005",
-                        candidate_id: "0834CS211005",
-                        name: "Eva Davis",
-                    },
-                    {
-                        id: "1006",
-                        candidate_id: "0834CS211006",
-                        name: "Frank Miller",
-                    },
-                    {
-                        id: "1007",
-                        candidate_id: "0834CS211007",
-                        name: "Grace Wilson",
-                    },
-                    {
-                        id: "1008",
-                        candidate_id: "0834CS211008",
-                        name: "Henry Jackson",
-                        status: true
-                    },
-                    {
-                        id: "1009",
-                        candidate_id: "0834CS211009",
-                        name: "Ivy Moore",
-                    },
-                    {
-                        id: "1010",
-                        candidate_id: "0834CS211010",
-                        name: "Jack Taylor",
-                    },
-                ],
-            },
             {
                 id: "2b9d03a4-c304-4b80-b5d7-cc6a0d86bf1d",
                 topic: "Topic B",

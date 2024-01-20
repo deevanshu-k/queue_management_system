@@ -2,10 +2,9 @@ const { DataTypes } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
     return sequelize.define("candidate", {
         id: {
-            type: DataTypes.STRING,
+            type: DataTypes.CHAR(36),
             primaryKey: true,
-            allowNull: false,
-            defaultValue: DataTypes.UUID,
+            allowNull: false
         },
         queueId: {
             type: DataTypes.STRING,

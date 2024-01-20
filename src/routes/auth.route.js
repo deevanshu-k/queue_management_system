@@ -5,6 +5,6 @@ const router = Router();
 // Login Request For Queue Manager
 // url: http://127.0.0.1:3000/api/auth/queue/manager?queueId=<ID>&pswd=<PASSWORD>
 // you will get cridentials in query
-router.post("/queue/manager", authQueueManager);
+router.post("/queue/manager", authQueueManager.validator, authQueueManager.controller);
 
 module.exports = router;

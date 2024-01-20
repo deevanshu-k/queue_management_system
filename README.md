@@ -1,6 +1,7 @@
 # queue_management_system
 
 ### Development Env
+- Make File .env and add below variables
 
 ```bash
 NODE_ENV=development
@@ -10,6 +11,10 @@ HOST='127.0.0.1'
 CLIENT_URL='http://127.0.0.1:4200'
 MANAGER_URL='http://127.0.0.1:4200' # Without Slash
 VIEWER_URL='http://127.0.0.1:4200'  # Without Slash
+
+## AUTH ##
+SECRET='I LOVE YOU'
+TOKEN_EXP_TIME='5h'
 
 ## DATABASE
 
@@ -28,6 +33,7 @@ D_DB_NAME=queuedb
 ```
 
 ### Production Env
+- Make File .env and add below variables
 
 ```bash
 NODE_ENV=development
@@ -37,6 +43,10 @@ HOST='127.0.0.1'
 CLIENT_URL='http://127.0.0.1:4200'
 MANAGER_URL='http://127.0.0.1:4200' # Without Slash
 VIEWER_URL='http://127.0.0.1:4200'  # Without Slash
+
+## AUTH ##
+SECRET='I LOVE YOU'
+TOKEN_EXP_TIME='5h'
 
 ## DATABASE
 

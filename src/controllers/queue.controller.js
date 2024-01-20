@@ -83,11 +83,29 @@ module.exports.createQueue = {
 module.exports.updateQueue = {
     validator: celebrate({
         body: Joi.object().keys({
-            zip_code: Joi.number().required(),
+            topic: Joi.string(),
+            type: Joi.string().equal("INTERNAL", "EXTERNAL", "INTERVIEW"),
+            managername: Joi.string(),
+            startdate: Joi.string(),
+            starttime: Joi.string(),
         }),
     }),
     controller: async (req, res) => {
-        res.send("Update Queue");
+        try {
+            let data = req.body;
+            let updatedQueue = await db.queue.update(data, {
+                where: { id: req.auth.id },
+            });
+
+            return res.status(200).json({
+                message: "Updated successfully!"
+            });
+        } catch (error) {
+            console.log(error);
+            return res.status(500).send({
+                message: "Something went wrong !",
+            });
+        }
     },
 };
 

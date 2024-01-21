@@ -63,3 +63,11 @@ P_DB_PSWD=Root@125502
 P_DB_NAME=queuedb
 
 ```
+
+### Socket
+- MESSAGE
+    - code
+    ```
+        1023: "Queue Not Exist !",
+        1024: "Queue Id Required !"
+    ```

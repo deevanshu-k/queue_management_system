@@ -15,14 +15,21 @@ const joinQueueDriver = (io, socket) => {
                     });
                     socket.emit("QUEUE FULL DATA", queue);
                 } else {
-                    throw new Error("Queue Not Exist !");
+                    throw {
+                        code: 1023,
+                        message: "Queue Not Exist !",
+                    };
                 }
             } else {
-                throw new Error("Queue Id Required !");
+                throw {
+                    code: 1024,
+                    message: "Queue Id Required !",
+                };
             }
         } catch (error) {
-            console.log(error.message);
+            console.log(error);
             socket.emit("MESSAGE", {
+                code: error.code,
                 error: error.message,
             });
         }

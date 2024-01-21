@@ -1,6 +1,7 @@
 const dbConfig = require("../config/db.config");
 let Sequelize = require("sequelize");
 let initModels = require("./init-models").initModels;
+const jwt = require("jsonwebtoken");
 
 // create sequelize instance with database connection
 const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
@@ -29,128 +30,6 @@ models.Sequelize = Sequelize;
         let date = new Date();
         console.log(date);
         let obj = [
-            {
-                id: "2b9d03a4-c304-4b80-b5d7-cc6a0d86bf1d",
-                topic: "Topic B",
-                type: "INTERNAL",
-                managername: "Jane Doe",
-                password: "SecurePwd456",
-                startdate: date,
-                starttime: date,
-                candidates: [
-                    {
-                        id: "1011",
-                        candidate_id: "0834CS211011",
-                        name: "Kelly Anderson",
-                    },
-                    {
-                        id: "1012",
-                        candidate_id: "0834CS211012",
-                        name: "Liam Moore",
-                    },
-                    {
-                        id: "1013",
-                        candidate_id: "0834CS211013",
-                        name: "Mia Brown",
-                    },
-                    {
-                        id: "1014",
-                        candidate_id: "0834CS211014",
-                        name: "Noah Smith",
-                    },
-                    {
-                        id: "1015",
-                        candidate_id: "0834CS211015",
-                        name: "Olivia Taylor",
-                    },
-                    {
-                        id: "1016",
-                        candidate_id: "0834CS211016",
-                        name: "Peter Wilson",
-                    },
-                    {
-                        id: "1017",
-                        candidate_id: "0834CS211017",
-                        name: "Quinn Johnson",
-                    },
-                    {
-                        id: "1018",
-                        candidate_id: "0834CS211018",
-                        name: "Ryan Davis",
-                    },
-                    {
-                        id: "1019",
-                        candidate_id: "0834CS211019",
-                        name: "Sophia Miller",
-                    },
-                    {
-                        id: "1020",
-                        candidate_id: "0834CS211020",
-                        name: "Thomas Jackson",
-                    },
-                ],
-            },
-            {
-                id: "3c8a7b6e-0717-4e88-96e3-6ea1a1f0c05c",
-                topic: "Topic C",
-                type: "EXTERNAL",
-                managername: "Alex Johnson",
-                password: "Pass321Word",
-                startdate: date,
-                starttime: date,
-                candidates: [
-                    {
-                        id: "1021",
-                        candidate_id: "0834CS211021",
-                        name: "Ursula White",
-                    },
-                    {
-                        id: "1022",
-                        candidate_id: "0834CS211022",
-                        name: "Vince Brown",
-                    },
-                    {
-                        id: "1023",
-                        candidate_id: "0834CS211023",
-                        name: "Wendy Davis",
-                    },
-                    {
-                        id: "1024",
-                        candidate_id: "0834CS211024",
-                        name: "Xander Miller",
-                    },
-                    {
-                        id: "1025",
-                        candidate_id: "0834CS211025",
-                        name: "Yasmine Taylor",
-                    },
-                    {
-                        id: "1026",
-                        candidate_id: "0834CS211026",
-                        name: "Zack Wilson",
-                    },
-                    {
-                        id: "1027",
-                        candidate_id: "0834CS211027",
-                        name: "Aaron Jackson",
-                    },
-                    {
-                        id: "1028",
-                        candidate_id: "0834CS211028",
-                        name: "Bella Smith",
-                    },
-                    {
-                        id: "1029",
-                        candidate_id: "0834CS211029",
-                        name: "Cody Moore",
-                    },
-                    {
-                        id: "1030",
-                        candidate_id: "0834CS211030",
-                        name: "Daisy Brown",
-                    },
-                ],
-            },
             {
                 id: "4e02f09d-3c8c-4e4b-8e7a-2d1d394924b3",
                 topic: "Topic D",
@@ -222,6 +101,23 @@ models.Sequelize = Sequelize;
                 },
             ],
         });
+
+        const jwtToken = jwt.sign(
+            {
+                id: obj[0].id,
+                managername: obj[0].managername,
+                topic: obj[0].topic,
+                type: obj[0].type,
+            },
+            process.env.SECRET,
+            {
+                expiresIn: process.env.TOKEN_EXP_TIME,
+            }
+        );
+        console.log("----------Token--------");
+        console.log("queueId : " + obj[0].id);
+        console.log("token : " + jwtToken);
+        console.log("-----------------------");
     } catch (error) {
         console.log(error);
     }

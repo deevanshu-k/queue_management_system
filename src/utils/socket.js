@@ -1,0 +1,56 @@
+const db = require("../models");
+
+const calculateCount = async (queueId) => {
+    let totalCandidates = await db.candidate.count({
+        where: {
+            queueId: queueId,
+        },
+    });
+    let statusTrueCandidates = await db.candidate.count({
+        where: {
+            queueId: queueId,
+            status: true,
+        },
+    });
+
+    return [statusTrueCandidates, totalCandidates];
+};
+
+module.exports.emitQueueUpdate = async (queueId, data) => {
+    try {
+        let io = global.socket;
+        let emittedData = {};
+        if (data.topic) emittedData.topic = data.topic;
+        if (data.type) emittedData.type = data.type;
+        if (data.managername) emittedData.managername = data.managername;
+        if (data.status) emittedData.status = data.status;
+        if (data.startdate) emittedData.startdate = data.startdate;
+        if (data.starttime) emittedData.starttime = data.startdate;
+        let count = await calculateCount(queueId);
+        await io.to(queueId).emit("QUEUE UPDATE", {
+            count: count,
+            queue: emittedData,
+        });
+    } catch (error) {
+        console.log(error);
+    }
+};
+module.exports.emitCandidateUpdate = async (queueId, candidateId, data) => {
+    try {
+        let io = global.socket;
+        let emittedData = {
+            id: candidateId,
+        };
+        if (data.candidate_id) emittedData.candidate_id = data.candidate_id;
+        if (data.status == true || data.status == false)
+            emittedData.status = data.status;
+        if (data.name) emittedData.name = data.status;
+        let count = await calculateCount(queueId);
+        await io.to(queueId).emit("QUEUE UPDATE", {
+            count: count,
+            candidate: emittedData,
+        });
+    } catch (error) {
+        console.log(error);
+    }
+};

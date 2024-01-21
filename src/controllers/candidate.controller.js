@@ -30,6 +30,7 @@ module.exports.addCandidateToQueue = {
             });
             await db.candidate.bulkCreate(candidateData);
 
+            await socketUtils.emitQueueFullData(queueId);
             return res.status(200).json({
                 message: "Added successfully!",
             });

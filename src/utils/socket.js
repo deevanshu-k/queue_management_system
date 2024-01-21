@@ -54,3 +54,29 @@ module.exports.emitCandidateUpdate = async (queueId, candidateId, data) => {
         console.log(error);
     }
 };
+module.exports.emitQueueFullData = async (queueId) => {
+    try {
+        let io = global.socket;
+    
+        let queueData = await db.queue.findOne({
+            where: { id: queueId },
+            include: {
+                model: db.candidate,
+                as: "candidates",
+                attributes: ["id", "candidate_id", "status", "name"],
+            },
+            attributes: [
+                "id",
+                "topic",
+                "type",
+                "status",
+                "managername",
+                "startdate",
+                "starttime",
+            ],
+        });
+        await io.to(queueId).emit("QUEUE FULL DATA", queueData);
+    } catch (error) {
+        console.log(error);
+    }
+}

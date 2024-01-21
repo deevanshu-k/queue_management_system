@@ -98,6 +98,7 @@ module.exports.deleteCandidateOfTheQueue = {
                 },
             });
 
+            await socketUtils.emitQueueFullData(queueId);
             return res.status(200).json({
                 message: "Deleted successfully!",
             });

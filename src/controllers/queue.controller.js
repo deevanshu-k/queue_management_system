@@ -66,7 +66,7 @@ module.exports.createQueue = {
                 process.env.MANAGER_URL +
                 `?queueId=${savedData.id}&pswd=${password}`;
             const viewerUrl =
-                process.env.VIEWER_URL + `?queueId=${savedData.id}`;
+                process.env.VIEWER_URL + `/${savedData.id}`;
 
             res.status(200).json({
                 manager_url: managerUrl,

@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING(255),
             allowNull: false,
             unique: false
-        },
+        },  
         status: { // PENDING | ONGOING | COMPLETED
             type: DataTypes.STRING,
             allowNull: false,

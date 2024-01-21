@@ -2,6 +2,7 @@ const { celebrate, Joi } = require("celebrate");
 const db = require("../models");
 const uuidv4 = require("uuid").v4;
 var pswdGenerator = require("generate-password");
+const socketUtils = require("../utils/socket");
 const bcrypt = require("bcryptjs");
 const salt = bcrypt.genSaltSync(10);
 
@@ -85,6 +86,7 @@ module.exports.updateQueue = {
         body: Joi.object().keys({
             topic: Joi.string(),
             type: Joi.string().equal("INTERNAL", "EXTERNAL", "INTERVIEW"),
+            status: Joi.string().equal("PENDING", "ONGOING", "COMPLETED"),
             managername: Joi.string(),
             startdate: Joi.string(),
             starttime: Joi.string(),
@@ -93,9 +95,14 @@ module.exports.updateQueue = {
     controller: async (req, res) => {
         try {
             let data = req.body;
-            let updatedQueue = await db.queue.update(data, {
+            await db.queue.update(data, {
                 where: { id: req.auth.id },
             });
+
+            let updatedQueue = await db.queue.findOne({
+                where: { id: req.auth.id },
+            });
+            await socketUtils.emitQueueUpdate(req.auth.id, updatedQueue);
 
             return res.status(200).json({
                 message: "Updated successfully!",

@@ -1,4 +1,5 @@
 const { celebrate, Joi } = require("celebrate");
+const socketUtils = require("../utils/socket");
 const uuidv4 = require("uuid").v4;
 const db = require("../models");
 
@@ -62,6 +63,10 @@ module.exports.updateCandidate = {
                 where: { id: candidateId, queueId: queueId },
             });
 
+            let updatedCandidate = await db.candidate.findOne({
+                where: { id: candidateId, queueId: queueId },
+            });
+            await socketUtils.emitCandidateUpdate(queueId, candidateId, updatedCandidate);
             return res.status(200).json({
                 message: "Updated successfully!",
             });
@@ -89,7 +94,7 @@ module.exports.deleteCandidateOfTheQueue = {
             await db.candidate.destroy({
                 where: {
                     queueId: queueId,
-                    id: candidateId
+                    id: candidateId,
                 },
             });
 

@@ -25,7 +25,7 @@ module.exports.emitQueueUpdate = async (queueId, data) => {
         if (data.managername) emittedData.managername = data.managername;
         if (data.status) emittedData.status = data.status;
         if (data.startdate) emittedData.startdate = data.startdate;
-        if (data.starttime) emittedData.starttime = data.startdate;
+        if (data.starttime) emittedData.starttime = data.starttime;
         let count = await calculateCount(queueId);
         await io.to(queueId).emit("QUEUE UPDATE", {
             count: count,
@@ -44,7 +44,7 @@ module.exports.emitCandidateUpdate = async (queueId, candidateId, data) => {
         if (data.candidate_id) emittedData.candidate_id = data.candidate_id;
         if (data.status == true || data.status == false)
             emittedData.status = data.status;
-        if (data.name) emittedData.name = data.status;
+        if (data.name) emittedData.name = data.name;
         let count = await calculateCount(queueId);
         await io.to(queueId).emit("QUEUE UPDATE", {
             count: count,

@@ -63,7 +63,7 @@ module.exports.emitQueueFullData = async (queueId) => {
             include: {
                 model: db.candidate,
                 as: "candidates",
-                attributes: ["id", "candidate_id", "status", "name"],
+                attributes: ["id", "candidate_id", "status", "name","placevalue"],
             },
             attributes: [
                 "id",

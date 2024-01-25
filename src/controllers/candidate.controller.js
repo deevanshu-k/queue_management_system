@@ -43,6 +43,52 @@ module.exports.addCandidateToQueue = {
     },
 };
 
+module.exports.updateMultipleCandidates = {
+    validator: celebrate({
+        body: Joi.array()
+            .items(
+                Joi.object()
+                    .keys({
+                        id: Joi.string().required(),
+                        candidate_id: Joi.string(),
+                        status: Joi.boolean(),
+                        name: Joi.string(),
+                        placevalue: Joi.number(),
+                    })
+                    .required()
+            )
+            .required(),
+    }),
+    controller: async (req, res) => {
+        try {
+            const queueId = req.auth.id;
+            let data = req.body;
+
+            for (let i = 0; i < data.length; i++) {
+                let candidate = {};
+                if(data[i].candidate_id) candidate.candidate_id = data[i].candidate_id;
+                if(data[i].name) candidate.name = data[i].name;
+                if(data[i].status) candidate.status = data[i].status;
+                if(data[i].placevalue) candidate.placevalue = data[i].placevalue;
+                await db.candidate.update(candidate, {
+                    where: { queueId: queueId, id: data[i].id },
+                });
+            }
+
+            await socketUtils.emitQueueFullData(queueId);
+
+            return res.status(200).json({
+                message: "Updated successfully!",
+            });
+        } catch (error) {
+            console.log(error);
+            return res.status(500).send({
+                message: "Something went wrong !",
+            });
+        }
+    },
+};
+
 module.exports.updateCandidate = {
     validator: celebrate({
         body: Joi.object().keys({
@@ -67,7 +113,11 @@ module.exports.updateCandidate = {
             let updatedCandidate = await db.candidate.findOne({
                 where: { id: candidateId, queueId: queueId },
             });
-            await socketUtils.emitCandidateUpdate(queueId, candidateId, updatedCandidate);
+            await socketUtils.emitCandidateUpdate(
+                queueId,
+                candidateId,
+                updatedCandidate
+            );
             return res.status(200).json({
                 message: "Updated successfully!",
             });

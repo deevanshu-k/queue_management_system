@@ -6,7 +6,26 @@ const joinQueueDriver = (io, socket) => {
             if (data.id) {
                 let queue = await db.queue.findOne({
                     where: { id: data.id },
-                    include: ["candidates"],
+                    include: {
+                        model: db.candidate,
+                        as: "candidates",
+                        attributes: [
+                            "id",
+                            "candidate_id",
+                            "status",
+                            "name",
+                            "placevalue",
+                        ],
+                    },
+                    attributes: [
+                        "id",
+                        "topic",
+                        "type",
+                        "status",
+                        "managername",
+                        "startdate",
+                        "starttime",
+                    ],
                 });
                 if (queue) {
                     socket.join(queue.id);

@@ -15,6 +15,10 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
             unique: false,
         },
+        placevalue: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
         status: {
             type: DataTypes.BOOLEAN,
             allowNull: false,

@@ -1,7 +1,10 @@
 const dbConfig = require("../config/db.config");
 let Sequelize = require("sequelize");
 let initModels = require("./init-models").initModels;
+const bcrypt = require("bcryptjs");
+const salt = bcrypt.genSaltSync(10);
 const jwt = require("jsonwebtoken");
+const uuidv4 = require("uuid").v4;
 
 // create sequelize instance with database connection
 const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
@@ -27,68 +30,25 @@ models.Sequelize = Sequelize;
 (async () => {
     try {
         await models.sequelize.sync({ force: true });
-        let date = new Date();
-        console.log(date);
+        // console.log(date);
+        const candidateData = Array.from({ length: 30 }, (_, index) => ({
+            id: uuidv4(),
+            candidate_id: `CANDIDATE_${index + 1}`,
+            name: `Candidate ${index + 1}`,
+            status: Math.random() < 0.5, // Random boolean value for status
+            placevalue: index + 11
+          }));
         let obj = [
             {
                 id: "4e02f09d-3c8c-4e4b-8e7a-2d1d394924b3",
                 topic: "Topic D",
                 type: "INTERNAL",
                 managername: "Chris Taylor",
-                password: "SecurePwd789",
-                startdate: date,
-                starttime: date,
+                password: bcrypt.hashSync("SecurePwd789",salt),
+                startdate: '2024-01-21',
+                starttime: '10:46:00',
                 candidates: [
-                    {
-                        id: "1031",
-                        candidate_id: "0834CS211031",
-                        name: "Ella Wilson",
-                    },
-                    {
-                        id: "1032",
-                        candidate_id: "0834CS211032",
-                        name: "Finn Jackson",
-                    },
-                    {
-                        id: "1033",
-                        candidate_id: "0834CS211033",
-                        name: "Gemma Smith",
-                    },
-                    {
-                        id: "1034",
-                        candidate_id: "0834CS211034",
-                        name: "Hugo Moore",
-                    },
-                    {
-                        id: "1035",
-                        candidate_id: "0834CS211035",
-                        name: "Isla Brown",
-                    },
-                    {
-                        id: "1036",
-                        candidate_id: "0834CS211036",
-                        name: "Jake Davis",
-                    },
-                    {
-                        id: "1037",
-                        candidate_id: "0834CS211037",
-                        name: "Kylie Miller",
-                    },
-                    {
-                        id: "1038",
-                        candidate_id: "0834CS211038",
-                        name: "Leo Taylor",
-                    },
-                    {
-                        id: "1039",
-                        candidate_id: "0834CS211039",
-                        name: "Mila Wilson",
-                    },
-                    {
-                        id: "1040",
-                        candidate_id: "0834CS211040",
-                        name: "Nolan Jackson",
-                    },
+                    ...candidateData,
                 ],
             },
         ];

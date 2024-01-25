@@ -36,6 +36,7 @@ module.exports.createQueue = {
                 uppercase: true,
             });
             // Create Data Object With UUID
+            let i = 1;
             let data = {
                 id: uuidv4(),
                 topic: req.body.topic,
@@ -48,6 +49,7 @@ module.exports.createQueue = {
                     return {
                         id: uuidv4(),
                         ...d,
+                        placevalue: i++,
                     };
                 }),
             };
@@ -65,8 +67,7 @@ module.exports.createQueue = {
             const managerUrl =
                 process.env.MANAGER_URL +
                 `?queueId=${savedData.id}&pswd=${password}`;
-            const viewerUrl =
-                process.env.VIEWER_URL + `/${savedData.id}`;
+            const viewerUrl = process.env.VIEWER_URL + `/${savedData.id}`;
 
             res.status(200).json({
                 manager_url: managerUrl,
@@ -158,7 +159,7 @@ module.exports.getQueue = {
                 include: {
                     model: db.candidate,
                     as: "candidates",
-                    attributes: ["id", "candidate_id", "status", "name"],
+                    attributes: ["id","placevalue", "candidate_id", "status", "name"],
                 },
                 attributes: [
                     "id",

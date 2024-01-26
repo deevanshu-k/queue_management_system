@@ -21,10 +21,16 @@ module.exports.addCandidateToQueue = {
     controller: async (req, res) => {
         try {
             const queueId = req.auth.id;
+            let pv = await db.candidate.max("placevalue", {
+                where: {
+                    queueId: queueId,
+                },
+            });
             let candidateData = [...req.body.candidates].map((d) => {
                 return {
                     id: uuidv4(),
                     queueId: queueId,
+                    placevalue: ++pv,
                     ...d,
                 };
             });
@@ -66,10 +72,12 @@ module.exports.updateMultipleCandidates = {
 
             for (let i = 0; i < data.length; i++) {
                 let candidate = {};
-                if(data[i].candidate_id) candidate.candidate_id = data[i].candidate_id;
-                if(data[i].name) candidate.name = data[i].name;
-                if(data[i].status) candidate.status = data[i].status;
-                if(data[i].placevalue) candidate.placevalue = data[i].placevalue;
+                if (data[i].candidate_id)
+                    candidate.candidate_id = data[i].candidate_id;
+                if (data[i].name) candidate.name = data[i].name;
+                if (data[i].status) candidate.status = data[i].status;
+                if (data[i].placevalue)
+                    candidate.placevalue = data[i].placevalue;
                 await db.candidate.update(candidate, {
                     where: { queueId: queueId, id: data[i].id },
                 });
